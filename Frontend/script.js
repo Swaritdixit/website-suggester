@@ -1,12 +1,13 @@
 let content=[];
-fetch("http://localhost:3000/movies")
-    .then(response => response.json())
-    .then(data => {
-        content = data;
-        console.log(content);
-    });
-const button=document.getElementById("recommendation");
-button.addEventListener("click",()=>{
+const recommendationButton=document.getElementById("recommendation");
+const searchButton = document.getElementById("searchButton");
+function getResults(){
+    const search=document.getElementById("searchInput").value;
+    const genre=document.getElementById("genre").value;
+    const mood=document.getElementById("mood").value;
+    const type=document.getElementById("type").value;
+
+
 fetch(`http://localhost:3000/content?search=${search}&genre=${genre}&mood=${mood}&type=${type}`)
 .then(response => response.json())
 .then(filtered => {
@@ -37,9 +38,11 @@ if(filtered.length===0){
 </div>`;
 }
 });
-});
+};
+recommendationButton.addEventListener("click",getResults);
+searchButton.addEventListener("click",getResults);
 document.getElementById("searchInput").addEventListener("keypress",event=>{
     if(event.key==="Enter"){
-        document.getElementById("recommendation").click();
+        getResults();
     }
 });

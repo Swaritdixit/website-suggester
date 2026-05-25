@@ -2,28 +2,7 @@ const express=require('express');
 const cors=require('cors');
 const app=express();
 app.use(cors());
-const content=[  {
-        title:"Glory",
-        genre:["Action","Adventure"],
-        mood:["Emotional","Epic"],
-        type:["K-Drama"],
-        rating:8.8,
-        image:"images/glory.png",
-        platforms:["Netflix","Viki"],
-        description:"A gripping revenge drama."
-    },
-
-    {
-        title:"Death Note",
-        genre:["Mystery","Supernatural"],
-        mood:["Dark","Suspenseful"],
-        type:["Anime"],
-        rating:9.0,
-        image:"images/deathnote.png",
-        platforms:["Netflix","Crunchyroll"],
-        description:"A student discovers a deadly notebook."
-    }
-]
+const content=require("./models/content");
 app.get("/",(req,res)=>{
     res.send("Backend Working");
 });
