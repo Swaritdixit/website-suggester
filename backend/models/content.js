@@ -13,4 +13,4 @@ const contentSchema=new mongoose.Schema({
 });
 mongoose.connect(process.env.Mongo_DB)
 .then(()=>(console.log("Connected to MongoDB")));
-module.exports=mongoose.model("Content:",contentSchema);
+module.exports=mongoose.model("Content",contentSchema);

@@ -2,16 +2,17 @@ const express=require('express');
 const cors=require('cors');
 const app=express();
 app.use(cors());
-const content=require("./models/content");
+const Content=require("./models/content");
 app.get("/",(req,res)=>{
     res.send("Backend Working");
 });
-app.get("/content",(req,res)=>{
+app.get("/content",async (req,res)=>{
     const genre=req.query.genre || "";
     const mood=req.query.mood || "";
     const type=req.query.type || "";
     const search=req.query.search || "";
-    const filtered = content.filter(item =>
+    const allContent = await Content.find();
+    const filtered = await allContent.filter(item =>
     (
         item.title.toLowerCase().includes(search.toLowerCase())
         ||
@@ -40,6 +41,7 @@ app.get("/content",(req,res)=>{
     );
     res.json(filtered);
 });
+
 app.listen(3000,()=>{
     console.log("Server is running on port 3000");
 });
