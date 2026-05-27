@@ -46,3 +46,16 @@ document.getElementById("searchInput").addEventListener("keypress",event=>{
         getResults();
     }
 });
+fetch("http://localhost:3000/trending").then(response=>response.json())
+.then(data=>{
+    const trendingContainer=document.getElementById("trendingContainer");
+    data.forEach(item=>{
+        trendingContainer.innerHTML+=`<div class="trending-card">
+
+        <img src="${item.image}" alt="${item.title}">
+        <h3>${item.title}</h3>
+        <p>${item.description}</p>
+        </div>`;
+    });
+
+});

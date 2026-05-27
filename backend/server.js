@@ -1,5 +1,8 @@
 const express=require('express');
 const cors=require('cors');
+const mongoose=require('mongoose');
+const dotenv=require('dotenv');
+dotenv.config();
 const app=express();
 app.use(cors());
 const Content=require("./models/content");
@@ -12,7 +15,7 @@ app.get("/content",async (req,res)=>{
     const type=req.query.type || "";
     const search=req.query.search || "";
     const allContent = await Content.find();
-    const filtered = await allContent.filter(item =>
+    const filtered =  allContent.filter(item =>
     (
         item.title.toLowerCase().includes(search.toLowerCase())
         ||
@@ -41,7 +44,22 @@ app.get("/content",async (req,res)=>{
     );
     res.json(filtered);
 });
-
-app.listen(3000,()=>{
-    console.log("Server is running on port 3000");
+app.get("/trending",async(req,res)=>{
+    const trending=await Content.find().sort({rating:-1}).limit(4);
+    res.json(trending);
 });
+mongoose.connect(process.env.Mongo_DB)
+
+.then(()=>{
+
+    console.log("MongoDB Connected");
+
+    app.listen(3000,()=>{
+
+        console.log("Server is running on port 3000");
+
+    });
+
+})
+
+.catch(err=>console.log(err));

@@ -439,6 +439,20 @@ flex-wrap:wrap;
     left:100%;
     
 }
+.trending-card img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:20px;
+}
+.trending-card h3{
+    margin-top:15px;
+    font-size:1.25rem;
+}
+.trending-card p{
+    color:#d3d3d3;
+    margin-top:10px;
+}
 .Featured{
     min-height:90vh;
     margin:100px 5%;
