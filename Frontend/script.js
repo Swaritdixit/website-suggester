@@ -24,9 +24,12 @@ filtered.forEach(item=>{
                        <span>⭐ ${item.rating}</span>
                        <div class="platforms">
                            ${item.platforms.map(p => `<span>${p}</span>`).join('')}
-                       </div>
-                       <button>Watch Now</button>
-                       </div>`;
+                          </div>
+                          <a href="details.html?id=${item._id}" >
+                          <button>Watch Now</button>
+                          </a>
+
+                       `;
 });
 if(filtered.length===0){
     result.innerHTML=`<div class="no-result">

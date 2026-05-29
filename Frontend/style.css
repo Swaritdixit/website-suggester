@@ -577,3 +577,30 @@ footer::before{
     background:linear-gradient(to right,transparent,#00c3ff,transparent);
   box-shadow:0 0 10px #00c3ff;
 }
+------------------------------
+.details-card{
+    width:80%;
+    margin:auto;
+    text-align:center;
+    color:#d3d3d3;
+    padding:40px;
+}
+.details-card img{
+    width:100%;
+    max-width:400px;
+    height:auto;
+    border-radius:20px;
+    margin-bottom:30px;
+}
+.details-card h1{
+    font-size:clamp(2rem, 5vw, 4rem);
+    margin-bottom:20px;
+    color:#87F5FB;
+    text-shadow:0 0 10px #00398a,
+                0 0  25px #1df7ef;
+}
+.details-card p{
+    font-size:1.1rem;
+    line-height:1.8;
+    margin-bottom:30px;
+}

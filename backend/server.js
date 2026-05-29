@@ -61,5 +61,9 @@ mongoose.connect(process.env.Mongo_DB)
     });
 
 })
-
 .catch(err=>console.log(err));
+
+app.get("/content/:id",async(req,res)=>{
+    const movie=await Content.findById(req.params.id);
+    res.json(movie);
+});
