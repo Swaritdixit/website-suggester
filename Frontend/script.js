@@ -25,9 +25,13 @@ filtered.forEach(item=>{
                        <div class="platforms">
                            ${item.platforms.map(p => `<span>${p}</span>`).join('')}
                           </div>
-                          <a href="details.html?id=${item._id}" >
-                          <button>Watch Now</button>
-                          </a>
+                          <button class="favBtn" data-id="${item._id}">
+    ❤️
+</button>
+
+<a href="details.html?id=${item._id}">
+    <button>Watch Now</button>
+</a>
 
                        `;
 });
@@ -58,7 +62,23 @@ fetch("http://localhost:3000/trending").then(response=>response.json())
         <img src="${item.image}" alt="${item.title}">
         <h3>${item.title}</h3>
         <p>${item.description}</p>
+        <button class="favBtn" data-id="${item._id}">
+        ❤️
+    </button>
+
+    <a href="details.html?id=${item._id}">
+        <button>Watch Now</button>
+    </a>
         </div>`;
     });
 
 });
+document.querySelectorAll(".favBtn").forEach(button=>{
+    button.addEventListener("click",()=>{
+        const id=button.dataset.id;
+        fetch(`http://localhost:3000/favorite/${id}`).then(response=>response.json())
+        .then(data=>{
+            console.log(data);
+        });
+    })
+})

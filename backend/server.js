@@ -2,6 +2,7 @@ const express=require('express');
 const cors=require('cors');
 const mongoose=require('mongoose');
 const dotenv=require('dotenv');
+const favorite=require("./models/favorite");
 dotenv.config();
 const app=express();
 app.use(cors());
@@ -66,4 +67,25 @@ mongoose.connect(process.env.Mongo_DB)
 app.get("/content/:id",async(req,res)=>{
     const movie=await Content.findById(req.params.id);
     res.json(movie);
+});
+app.get("/favorite/:id",async(req,res)=>{
+    await favorite.create({
+        contentId:req.params.id
+    });
+    res.json({message:"Added to favorites"});
+
+});
+app.get("/favorites",async(req,res)=>{
+    const favorites=await favorite.find();
+    const ids=favorites.map(f=>f.contentId);
+    const content=await Content.find({
+        id:{$in:ids}
+    });
+    res.json(content);  
+    });
+app.get("/removeFavorite/:id",async(req,res)=>{
+    await favorite.deleteOne({
+        contentId:req.params.id
+    });
+    res.json({message:"Removed from favorites"});
 });
