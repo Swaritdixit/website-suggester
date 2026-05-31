@@ -1,54 +1,33 @@
-const express=require('express');
-const cors=require('cors');
-const mongoose=require('mongoose');
-const dotenv=require('dotenv');
-const favorite=require("./models/favorite");
+const express=require("express");
+const cors=require("cors");
+const mongoose=require("mongoose");
+const dotenv=require("dotenv");
+
 dotenv.config();
+
 const app=express();
+
 app.use(cors());
-const Content=require("./models/content");
+app.use(express.json());
+
+const contentRoutes=
+require("./routes/contentRoutes");
+
+const favouriteRoutes=
+require("./routes/favouriteRoutes");
+
+const userRoutes=
+require("./routes/userRoutes");
+
+
+app.use("/",userRoutes);
+app.use("/",contentRoutes);
+app.use("/",favouriteRoutes);
+
 app.get("/",(req,res)=>{
     res.send("Backend Working");
 });
-app.get("/content",async (req,res)=>{
-    const genre=req.query.genre || "";
-    const mood=req.query.mood || "";
-    const type=req.query.type || "";
-    const search=req.query.search || "";
-    const allContent = await Content.find();
-    const filtered =  allContent.filter(item =>
-    (
-        item.title.toLowerCase().includes(search.toLowerCase())
-        ||
-        item.description.toLowerCase().includes(search.toLowerCase())
-    )
-    &&
-    (
-        genre === "" ||
-        item.genre.some(g =>
-            g.toLowerCase().includes(genre.toLowerCase())
-        )
-    )
-    &&
-    (
-        mood === "" ||
-        item.mood.some(m =>
-            m.toLowerCase().includes(mood.toLowerCase())
-        )
-    )
-    &&
-    (
-        type === "" ||
-        item.type.some(t =>
-            t.toLowerCase().includes(type.toLowerCase())
-        ))
-    );
-    res.json(filtered);
-});
-app.get("/trending",async(req,res)=>{
-    const trending=await Content.find().sort({rating:-1}).limit(4);
-    res.json(trending);
-});
+
 mongoose.connect(process.env.Mongo_DB)
 
 .then(()=>{
@@ -57,35 +36,12 @@ mongoose.connect(process.env.Mongo_DB)
 
     app.listen(3000,()=>{
 
-        console.log("Server is running on port 3000");
+        console.log(
+            "Server is running on port 3000"
+        );
 
     });
 
 })
+
 .catch(err=>console.log(err));
-
-app.get("/content/:id",async(req,res)=>{
-    const movie=await Content.findById(req.params.id);
-    res.json(movie);
-});
-app.get("/favorite/:id",async(req,res)=>{
-    await favorite.create({
-        contentId:req.params.id
-    });
-    res.json({message:"Added to favorites"});
-
-});
-app.get("/favorites",async(req,res)=>{
-    const favorites=await favorite.find();
-    const ids=favorites.map(f=>f.contentId);
-    const content=await Content.find({
-        id:{$in:ids}
-    });
-    res.json(content);  
-    });
-app.get("/removeFavorite/:id",async(req,res)=>{
-    await favorite.deleteOne({
-        contentId:req.params.id
-    });
-    res.json({message:"Removed from favorites"});
-});

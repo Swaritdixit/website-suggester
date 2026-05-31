@@ -76,7 +76,9 @@ fetch("http://localhost:3000/trending").then(response=>response.json())
 document.querySelectorAll(".favBtn").forEach(button=>{
     button.addEventListener("click",()=>{
         const id=button.dataset.id;
-        fetch(`http://localhost:3000/favorite/${id}`).then(response=>response.json())
+        fetch(`http://localhost:3000/favorite/${id}`,{
+    method:"POST"
+}).then(response=>response.json())
         .then(data=>{
             console.log(data);
         });

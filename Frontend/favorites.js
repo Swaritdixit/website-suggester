@@ -1,38 +1,50 @@
-fetch("http://localhost:3000/favorites").then(response=>response.json())    
+fetch("http://localhost:3000/favorites")
+.then(response=>response.json())
 .then(data=>{
-    const container=document.getElementById("favoritesContainer");
-    dataa.forEach(item=>{
+
+    const container=
+    document.getElementById("favoritesContainer");
+
+    container.innerHTML="";
+
+    data.forEach(item=>{
+
         container.innerHTML+=`
         <div class="card">
-        <img src="${item.image}" alt="${item.title}">
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-         <button
+
+            <img src="${item.image}" alt="${item.title}">
+            <h3>${item.title}</h3>
+            <p>${item.description}</p>
+
+            <button
                 class="removeBtn"
-                data-id="${item._id}"
-            >
+                data-id="${item._id}">
                 Remove
             </button>
 
         </div>
-
         `;
     });
-})
-document.querySelectorAll(".removeBtn")
-.forEach(button=>{
 
-    button.addEventListener("click",()=>{
+    document.querySelectorAll(".removeBtn")
+    .forEach(button=>{
 
-        const id=button.dataset.id;
+        button.addEventListener("click",()=>{
 
-        fetch(
-            `http://localhost:3000/removeFavorite/${id}`
-        )
+            const id=button.dataset.id;
 
-        .then(()=>{
+            fetch(
+                `http://localhost:3000/favorite/${id}`,
+                {
+                    method:"DELETE"
+                }
+            )
 
-            location.reload();
+            .then(()=>{
+
+                location.reload();
+
+            });
 
         });
 
