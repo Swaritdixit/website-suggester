@@ -1,5 +1,6 @@
 const User=require("../models/users");
 const bcrypt=require("bcrypt");
+const jwt=require("jsonwebtoken");
 exports.signup=async(req,res)=>
 {
     try{
@@ -27,5 +28,6 @@ const match=await bcrypt.compare(password,user.password);
 if(!match){
     return res.status(400).json({message:"Invalid password"});
 }
-res.json({message:"Login successful"});
+const token=jwt.sign({userId:user._id},process.env.JWT_SECRET);
+res.json({message:"Login successful",token});
 };

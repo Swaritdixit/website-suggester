@@ -1,4 +1,5 @@
 const express=require("express");
+const auth=require("../middleware/auth");
 const router=express.Router();
 const{
     addFavorite,
@@ -6,7 +7,7 @@ const{
     removeFavorite
 }
 =require("../controllers/favouriteControllers");
-router.post("/favorite/:id",addFavorite);
-router.get("/favorites",getFavorites);
-router.delete("/favorite/:id",removeFavorite);
+router.post("/favorites",auth,addFavorite);
+router.get("/favorites",auth,getFavorites);
+router.delete("/favorites/:id",auth,removeFavorite);
 module.exports=router;
