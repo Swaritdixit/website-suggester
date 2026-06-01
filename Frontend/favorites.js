@@ -1,5 +1,14 @@
-fetch("http://localhost:3000/favorites")
+fetch("http://localhost:3000/favorites",
+     {
+        headers:{
+            Authorization:
+            localStorage.getItem("token")
+        }
+    }
+)
+
 .then(response=>response.json())
+
 .then(data=>{
 
     const container=
@@ -10,11 +19,16 @@ fetch("http://localhost:3000/favorites")
     data.forEach(item=>{
 
         container.innerHTML+=`
+
         <div class="card">
 
-            <img src="${item.image}" alt="${item.title}">
+            <img
+            src="https://image.tmdb.org/t/p/w500${item.posterPath}"
+            alt="${item.title}">
+
             <h3>${item.title}</h3>
-            <p>${item.description}</p>
+
+            <p>${item.mediaType}</p>
 
             <button
                 class="removeBtn"
@@ -23,21 +37,35 @@ fetch("http://localhost:3000/favorites")
             </button>
 
         </div>
+
         `;
+
     });
 
-    document.querySelectorAll(".removeBtn")
+    document
+    .querySelectorAll(".removeBtn")
+
     .forEach(button=>{
 
         button.addEventListener("click",()=>{
 
-            const id=button.dataset.id;
+            const id=
+            button.dataset.id;
 
             fetch(
-                `http://localhost:3000/favorite/${id}`,
+
+                `http://localhost:3000/favorites/${id}`,
+
                 {
-                    method:"DELETE"
+                    method:"DELETE",
+                      headers:{
+            Authorization:
+            localStorage.getItem(
+                "token"
+            )
+        }
                 }
+
             )
 
             .then(()=>{

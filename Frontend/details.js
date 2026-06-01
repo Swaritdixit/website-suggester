@@ -1,18 +1,48 @@
 const params=new URLSearchParams(window.location.search);
+
 const id=params.get("id");
-fetch(`http://localhost:3000/content/${id}`)
+const media=params.get("media") || "movie";
+
+fetch(`http://localhost:3000/details/${id}?media=${media}`)
+
 .then(response=>response.json())
+
 .then(item=>{
-    const container=document.getElementById("detailsContainer");
+
+    const container=
+    document.getElementById("detailsContainer");
+
     container.innerHTML=`
+
     <div class="details-card">
-    <img src="${item.image}" alt="${item.title}">
-    <h1>${item.title}</h1>
-    <p>${item.description}</p>
-    <span>⭐ ${item.rating}</span>
-    <p>Genre: ${item.genre.join(", ")}</p>
-    <p>Mood: ${item.mood.join(", ")}</p>
-    <p>Type: ${item.type.join(", ")}</p>
-    <p>Platforms: ${item.platforms.join(", ")}</p>
+
+        <img
+        src="https://image.tmdb.org/t/p/w500${item.poster_path}"
+        alt="${item.title || item.name}">
+
+        <h1>${item.title || item.name}</h1>
+
+        <p>${item.overview}</p>
+
+        <span>⭐ ${item.vote_average}</span>
+
+        <p>
+        Release Date:
+        ${item.release_date || item.first_air_date}
+        </p>
+
+        <p>
+        Runtime:
+        ${item.runtime || item.number_of_episodes || "N/A"}
+        </p>
+
+        <p>
+        Genres:
+        ${item.genres.map(g=>g.name).join(", ")}
+        </p>
+
+    </div>
+
     `;
-})
+
+});

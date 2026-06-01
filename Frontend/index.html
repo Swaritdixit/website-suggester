@@ -12,13 +12,15 @@
             <img src="/images/logo.png" alt="SiteSense">
         </div>
         <div class="navButtons">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Signup</a>
             <a href="/">Home</a>
             <a href="#">Movies</a>
             <a href="/">Anime</a>
             <a href="/about">TV shows</a>
             <a href="/contact">K-dramas</a>
             <a href="#trending">Trending</a>
-            <a href="/favorites">Favorites</a>
+            <a href="favourites.html">Favorites</a>
             <a href="/contact">Profile</a>
            </div>
         </nav>
@@ -69,10 +71,7 @@
     <div class="filters">
         <select id="genre">
         <option value="">Select genre</option>
-        <option>Action</option>
-        <option>Romance</option>
-        <option>Sci-Fi</option>
-        <option>Horror</option>
+        
         </select>
         <select id="mood">
         <option value="">Select mood</option>
@@ -81,13 +80,13 @@
         <option>Dark</option>
         <option>Exciting</option>
         </select>
-        <select id="type">
-        <option value="">Select type</option>
-        <option>Movies</option>
-        <option>TV Shows</option>
-        <option>Anime</option>
-        <option>K-Drama</option>
-        </select>
+       <select id="type">
+    <option value="">Select type</option>
+    <option value="Movie">Movie</option>
+    <option value="Show">TV Show</option>
+    <option value="Anime">Anime</option>
+    <option value="KDrama">K-Drama</option>
+</select>
         <button id="recommendation">
         Get Recommendations
         </button>

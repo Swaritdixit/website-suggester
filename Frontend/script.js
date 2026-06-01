@@ -1,86 +1,208 @@
 let content=[];
+
 const recommendationButton=document.getElementById("recommendation");
-const searchButton = document.getElementById("searchButton");
+const searchButton=document.getElementById("searchButton");
+
 function getResults(){
+
     const search=document.getElementById("searchInput").value;
     const genre=document.getElementById("genre").value;
     const mood=document.getElementById("mood").value;
     const type=document.getElementById("type").value;
 
+    fetch(`http://localhost:3000/content?search=${search}&genre=${genre}&mood=${mood}&type=${type}`)
 
-fetch(`http://localhost:3000/content?search=${search}&genre=${genre}&mood=${mood}&type=${type}`)
-.then(response => response.json())
-.then(filtered => {
+    .then(response=>response.json())
 
-  
-   console.log(filtered );
-const result=document.getElementById("result");
-result.innerHTML="";
-filtered.forEach(item=>{
-    result.innerHTML+=`<div class="card">
-                       <img src="${item.image}" alt="${item.title}">
-                       <h3>${item.title}</h3>
-                       <p>${item.description}</p>
-                       <span>⭐ ${item.rating}</span>
-                       <div class="platforms">
-                           ${item.platforms.map(p => `<span>${p}</span>`).join('')}
-                          </div>
-                          <button class="favBtn" data-id="${item._id}">
-    ❤️
-</button>
+    .then(filtered=>{
 
-<a href="details.html?id=${item._id}">
-    <button>Watch Now</button>
-</a>
+        const result=document.getElementById("result");
 
-                       `;
-});
-if(filtered.length===0){
-    result.innerHTML=`<div class="no-result">
+        result.innerHTML="";
 
-                       <h2>No results found</h2>
+        filtered.forEach(item=>{
 
-                        <p>Try another search or genre</p>
+            result.innerHTML+=`
 
-</div>`;
+            <div class="card">
+
+                <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+
+                <h3>${item.title || item.name}</h3>
+
+                <p>${item.overview}</p>
+
+                <span>⭐ ${item.vote_average}</span>
+
+                <button
+                    class="favBtn"
+                    data-id="${item.id}"
+                >
+                    ❤️
+                </button>
+
+                <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
+
+                    <button>
+                        Watch Now
+                    </button>
+
+                </a>
+
+            </div>
+
+            `;
+
+        });
+
+        if(filtered.length===0){
+
+            result.innerHTML=`
+
+            <div class="no-result">
+
+                <h2>No results found</h2>
+
+                <p>Try another search or genre</p>
+
+            </div>
+
+            `;
+
+        }
+
+    });
+
 }
-});
-};
-recommendationButton.addEventListener("click",getResults);
-searchButton.addEventListener("click",getResults);
-document.getElementById("searchInput").addEventListener("keypress",event=>{
+
+recommendationButton.addEventListener(
+    "click",
+    getResults
+);
+
+searchButton.addEventListener(
+    "click",
+    getResults
+);
+
+document
+.getElementById("searchInput")
+.addEventListener("keypress",event=>{
+
     if(event.key==="Enter"){
+
         getResults();
+
     }
+
 });
-fetch("http://localhost:3000/trending").then(response=>response.json())
+
+fetch("http://localhost:3000/trending")
+
+.then(response=>response.json())
+
 .then(data=>{
-    const trendingContainer=document.getElementById("trendingContainer");
+
+    const trendingContainer=
+    document.getElementById("trendingContainer");
+
     data.forEach(item=>{
-        trendingContainer.innerHTML+=`<div class="trending-card">
 
-        <img src="${item.image}" alt="${item.title}">
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <button class="favBtn" data-id="${item._id}">
-        ❤️
-    </button>
+        trendingContainer.innerHTML+=`
 
-    <a href="details.html?id=${item._id}">
-        <button>Watch Now</button>
-    </a>
-        </div>`;
+        <div class="trending-card">
+
+            <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+
+            <h3>${item.title || item.name}</h3>
+
+            <p>${item.overview}</p>
+
+            <button
+                class="favBtn"
+                data-id="${item.id}"
+            >
+                ❤️
+            </button>
+
+            <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
+
+                <button>
+                    Watch Now
+                </button>
+
+            </a>
+
+        </div>
+
+        `;
+
     });
 
 });
-document.querySelectorAll(".favBtn").forEach(button=>{
-    button.addEventListener("click",()=>{
-        const id=button.dataset.id;
-        fetch(`http://localhost:3000/favorite/${id}`,{
-    method:"POST"
-}).then(response=>response.json())
+document.addEventListener("click",event=>{
+
+    if(event.target.classList.contains("favBtn")){
+
+        fetch(
+            "http://localhost:3000/favorites",
+            {
+                method:"POST",
+
+                headers:{
+                    "Content-Type":"application/json",
+                     Authorization:
+            localStorage.getItem(
+                "token"
+            )
+                },
+
+                body:JSON.stringify({
+
+                    tmdbId:event.target.dataset.id,
+
+                    title:event.target.dataset.title,
+
+                    posterPath:event.target.dataset.poster,
+
+                    mediaType:event.target.dataset.media
+
+                })
+
+            }
+        )
+
+        .then(response=>response.json())
+
         .then(data=>{
+
             console.log(data);
+
         });
-    })
-})
+
+    }
+
+});
+
+fetch("http://localhost:3000/genres")
+
+.then(response=>response.json())
+
+.then(genres=>{
+
+    const genreSelect=
+    document.getElementById("genre");
+
+    genres.forEach(genre=>{
+
+        genreSelect.innerHTML+=`
+
+        <option value="${genre.id}">
+            ${genre.name}
+        </option>
+
+        `;
+
+    });
+
+});
