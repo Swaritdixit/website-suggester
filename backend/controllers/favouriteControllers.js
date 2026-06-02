@@ -1,4 +1,4 @@
-const Favourite=require("../models/favouriteModel");
+const Favourite=require("../models/favorite");
 
 exports.addFavorite=async(req,res)=>{
 

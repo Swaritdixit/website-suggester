@@ -10,19 +10,20 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
-const contentRoutes=
-require("./routes/contentRoutes");
+const contentRoutes=require("./routes/contentRoutes");
 
-const favouriteRoutes=
-require("./routes/favouriteRoutes");
+const favouriteRoutes=require("./routes/favouriteRoutes");
 
-const userRoutes=
-require("./routes/userRoutes");
+const userRoutes=require("./routes/userRoutes");
+
+const recommendationRoutes=require("./routes/recommendationRoutes");
 
 
 app.use("/",userRoutes);
 app.use("/",contentRoutes);
 app.use("/",favouriteRoutes);
+app.use("/",recommendationRoutes);
+
 
 app.get("/",(req,res)=>{
     res.send("Backend Working");
@@ -45,3 +46,8 @@ mongoose.connect(process.env.Mongo_DB)
 })
 
 .catch(err=>console.log(err));
+
+const testRoutes=
+require("./routes/testRoutes");
+
+app.use(testRoutes);
