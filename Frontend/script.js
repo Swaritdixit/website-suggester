@@ -206,3 +206,21 @@ fetch("http://localhost:3000/genres")
     });
 
 });
+fetch("http://localhost:3000/recommendations",{
+
+    headers:{
+        Authorization:
+        localStorage.getItem("token")}})
+        .then (response=>response.json())
+        .then(data=>{
+            const container=documentgetElementById("recommendationsContainer");
+            container.innerHTML="";
+            data.forEach(item=>{
+                container.innerHTML+=`
+                <div class="card">
+                    <img src="https://image.tmdb.org/t/p/w500${item.posterPath}">
+                    <h3>${item.title}</h3>
+                    <p>${item.mediaType}</p>
+                </div>`;
+            })
+        });
