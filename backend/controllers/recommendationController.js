@@ -1,33 +1,63 @@
 const Favourites=require('../models/favorite');
 const axios=require('axios');
+const {analyzeTaste}=require('../services/aiService');
+
 exports.getRecommendations=async(req,res)=>{
-    const favourites=await Favourites.find({
-        userId:req.user.userId
-    });
-    if(favourites.length===0){
-        return res.status(200).json({
-            recommendations:[]
+
+    try{
+
+        const favourites=
+        await Favourites.find({
+            userId:req.user.userId
         });
-    }
-    const genreCount={};
-    for(const item of favourites)
-    {
-        try{
-            const response=await axios.get(`https://api.themoviedb.org/3/${item.mediaType}/${item.tmdbId}?api_key=${process.env.TMDB_KEY}`);
-            response.data.genres.forEach(genre=>{
-                genreCount[genre.id]=(genreCount[genre.id] || 0)+1;
-            });
+
+        if(favourites.length===0){
+
+            return res.json([]);
+
         }
-        catch(error){
-            console.error('Error fetching TMDB data:', error);
+
+        const aiResult=
+        await analyzeTaste(favourites);
+
+        const profile=
+        JSON.parse(aiResult);
+
+        let recommendations=[];
+
+        for(const keyword of profile.keywords){
+
+            const response=
+            await axios.get(
+                `https://api.themoviedb.org/3/search/movie?api_key=${process.env.TMDB_KEY}&query=${keyword}`
+            );
+
+            recommendations.push(
+                ...response.data.results
+            );
+
         }
+
+        const uniqueRecommendations=
+        [
+            ...new Map(
+                recommendations.map(
+                    item=>[item.id,item]
+                )
+            ).values()
+        ];
+
+        res.json(uniqueRecommendations);
+
     }
-    const topGenres=Object.entries(genreCount)
-    .sort((a,b)=>b[1]-a[1])
-    .slice(0,3)
-    .map(item=>item[0]);
-    const recommendations=
-    await axios.get(`https://api.themoviedb.org/3/discover/movie?api_key=${process.env.TMDB_KEY}&with_genres=${topGenres.join(",")}`);
-    res.json(recommendations.data.results);
+    catch(error){
+
+        console.log(error);
+
+        res.status(500).json({
+            message:"Error generating recommendations"
+        });
+
+    }
+
 };
-    

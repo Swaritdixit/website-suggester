@@ -3,14 +3,13 @@ const ai=new GoogleGenAI({
     apiKey:process.env.GEMINI_API_KEY
 });
 exports.analyzeTaste=async(favourites)=>{
-    const favoriteTitles=favourites.map(item=>item.title).join("\n");
-    const prompt=`
-    Analyze this user's entertainment preferences.
-    Favorites:
+    const favoriteTitles=favourites.map(item=>item.title).join(",");
+   const prompt=`
+Analyze these favorites:
 
 ${favoriteTitles}
 
-Return ONLY valid JSON.
+Return ONLY JSON.
 
 {
     "genres":[],

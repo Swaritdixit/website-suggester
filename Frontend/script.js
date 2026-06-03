@@ -22,36 +22,39 @@ function getResults(){
 
         filtered.forEach(item=>{
 
-            result.innerHTML+=`
+            result.innerHTML += `
 
-            <div class="card">
+<div class="card">
 
-                <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+    <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
 
-                <h3>${item.title || item.name}</h3>
+    <h3>${item.title || item.name}</h3>
 
-                <p>${item.overview}</p>
+    <p>${item.overview}</p>
 
-                <span>⭐ ${item.vote_average}</span>
+    <span>⭐ ${item.vote_average}</span>
 
-                <button
-                    class="favBtn"
-                    data-id="${item.id}"
-                >
-                    ❤️
-                </button>
+    <button
+        class="favBtn"
+        data-id="${item.id}"
+        data-title="${item.title || item.name}"
+        data-poster="${item.poster_path}"
+        data-media="${item.media_type || "movie"}"
+    >
+        ❤️
+    </button>
 
-                <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
+    <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
 
-                    <button>
-                        Watch Now
-                    </button>
+        <button>
+            Watch Now
+        </button>
 
-                </a>
+    </a>
 
-            </div>
+</div>
 
-            `;
+`;
 
         });
 
@@ -103,43 +106,40 @@ fetch("http://localhost:3000/trending")
 
 .then(data=>{
 
-    const trendingContainer=
-    document.getElementById("trendingContainer");
+ trendingContainer.innerHTML += `
 
-    data.forEach(item=>{
+<div class="trending-card">
 
-        trendingContainer.innerHTML+=`
+    <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
 
-        <div class="trending-card">
+    <h3>${item.title || item.name}</h3>
 
-            <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+    <p>${item.overview}</p>
 
-            <h3>${item.title || item.name}</h3>
+    <button
+        class="favBtn"
+        data-id="${item.id}"
+        data-title="${item.title || item.name}"
+        data-poster="${item.poster_path}"
+        data-media="${item.media_type || "movie"}"
+    >
+        ❤️
+    </button>
 
-            <p>${item.overview}</p>
+    <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
 
-            <button
-                class="favBtn"
-                data-id="${item.id}"
-            >
-                ❤️
-            </button>
+        <button>
+            Watch Now
+        </button>
 
-            <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
+    </a>
 
-                <button>
-                    Watch Now
-                </button>
+</div>
 
-            </a>
-
-        </div>
-
-        `;
+`;
 
     });
 
-});
 document.addEventListener("click",event=>{
 
     if(event.target.classList.contains("favBtn")){
@@ -170,10 +170,7 @@ document.addEventListener("click",event=>{
                 })
 
             }
-        )
-
-        .then(response=>response.json())
-
+        ).then(response=>response.json())
         .then(data=>{
 
             console.log(data);
@@ -206,21 +203,49 @@ fetch("http://localhost:3000/genres")
     });
 
 });
-fetch("http://localhost:3000/recommendations",{
 
-    headers:{
-        Authorization:
-        localStorage.getItem("token")}})
-        .then (response=>response.json())
-        .then(data=>{
-            const container=documentgetElementById("recommendationsContainer");
-            container.innerHTML="";
-            data.forEach(item=>{
-                container.innerHTML+=`
-                <div class="card">
-                    <img src="https://image.tmdb.org/t/p/w500${item.posterPath}">
-                    <h3>${item.title}</h3>
-                    <p>${item.mediaType}</p>
-                </div>`;
-            })
-        });
+const token=localStorage.getItem("token");
+if(token){
+    fetch("http://localhost:3000/recommendations",{
+
+        headers:{
+            Authorization:token
+        }
+    })
+    .then(response=>response.json())
+   .then(data=>{
+
+        document
+        .getElementById(
+            "tasteProfile"
+        )
+        .innerHTML=
+
+        `
+        <h3>Genres</h3>
+        <p>${data.genres.join(", ")}</p>
+
+        <h3>Themes</h3>
+        <p>${data.themes.join(", ")}</p>
+
+        <h3>Keywords</h3>
+        <p>${data.keywords.join(", ")}</p>
+        `;
+
+    });
+
+}    
+document.getElementById("askAI").addEventListener("click",async()=>{
+    const prompt=document.getElementBYId("aiPrompt").value;
+    const response=await fetch("http://localhost:3000/ask-ai",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json",
+            Authorization:localStorage.getItem("token")
+        },
+        body:JSON.stringify({prompt})
+    });
+    const data=await response.json();
+    document.getElementById("aiResults").innerHTML=`
+    <p<${data.answer}</p>
+    `});

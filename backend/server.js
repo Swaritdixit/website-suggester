@@ -51,3 +51,5 @@ const testRoutes=
 require("./routes/testRoutes");
 
 app.use(testRoutes);
+const aiRoutes=require("./routes/aiRoutes");
+app.use("/",aiRoutes);
