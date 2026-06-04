@@ -53,3 +53,6 @@ require("./routes/testRoutes");
 app.use(testRoutes);
 const aiRoutes=require("./routes/aiRoutes");
 app.use("/",aiRoutes);
+
+const watchlistRoutes=require("./routes/watchlistRoutes");
+app.use("/",watchlistRoutes);

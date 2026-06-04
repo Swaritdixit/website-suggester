@@ -43,6 +43,16 @@ function getResults(){
     >
         ❤️
     </button>
+    
+     <button
+        class="watchBtn"
+        data-id="${item.id}"
+        data-title="${item.title || item.name}"
+        data-poster="${item.poster_path}"
+        data-media="${item.media_type || "movie"}"
+    >
+        📌 Watch Later
+    </button>
 
     <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
 
@@ -249,3 +259,37 @@ document.getElementById("askAI").addEventListener("click",async()=>{
     document.getElementById("aiResults").innerHTML=`
     <p<${data.answer}</p>
     `});
+
+
+
+    fetch("http://localhost:3000/taste-profile",{
+        headers:{
+            Authorization:localStorage.getItem("token")
+        }   
+    }).then(response=>response.json())
+    .then(data=>{
+        document.getElementById("tasteProfile").innerHTML=`<h3>Genres</h3>
+        <p>${data.genres.join(", ")}</p>
+        <h3>Themes</h3>
+        <p>${data.themes.join(", ")}</p>
+        <h3>Keywords</h3>
+        <p>${data.keywords.join(", ")}</p>
+        `;
+    })
+
+    document.addEventListener("click",async(event)=>{
+        if(event.target.classList.contains("watchBtn")){
+            await fetch("http://localhost:3000/watchlist",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json",
+                    Authorization:localStorage.getItem("token")
+                },
+                body:JSON.stringify({
+                    tmdbId:event.target.dataset.id,
+                    title:event.target.dataset.title,
+                    posterPath:event.target.dataset.poster,
+                    mediaType:event.target.dataset.media
+                })
+            })
+        }});
