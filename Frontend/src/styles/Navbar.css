@@ -1,0 +1,35 @@
+.navbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 30px;
+
+    background:#1a1a1a;
+
+    position:sticky;
+
+    top:0;
+
+    z-index:100;
+
+}
+
+.navbar div{
+
+    display:flex;
+
+    gap:20px;
+
+    align-items:center;
+
+}
+
+.navbar a:hover{
+
+    color:#00d4ff;
+
+}

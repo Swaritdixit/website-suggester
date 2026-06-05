@@ -4,7 +4,7 @@ const mongoose=require("mongoose");
 const dotenv=require("dotenv");
 
 dotenv.config();
-
+console.log("API KEY:", process.env.TMDB_KEY);
 const app=express();
 
 app.use(cors());
@@ -56,3 +56,6 @@ app.use("/",aiRoutes);
 
 const watchlistRoutes=require("./routes/watchlistRoutes");
 app.use("/",watchlistRoutes);
+
+const detailsRoutes=require("./routes/detailsRouter");
+app.use("/",detailsRoutes);

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Website Suggester</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="/images/logo.png" alt="SiteSense">
+        </div>
+        <div class="navButtons">
+            <a href="login.html">Login</a>
+            <a href="signup.html">Signup</a>
+            <a href="/">Home</a>
+            <a href="#">Movies</a>
+            <a href="/">Anime</a>
+            <a href="/about">TV shows</a>
+            <a href="/contact">K-dramas</a>
+            <a href="#trending">Trending</a>
+            <a href="favourites.html">Favorites</a>
+            <a href="/contact">Profile</a>
+           </div>
+        </nav>
+
+<section class="hero">
+    <div class="Heading">
+          <h1>All you need to Relax</h1>
+           <h3>Movies • Anime • TV shows • K-dramas</h3>
+           <h5>AI recommended</h5>
+    </div>
+    <div class="buttons">
+        <button class="btn">Trending</button>
+         <button class="btn">Favouritees</button>
+    </div>
+    
+
+    <section class="floating-pics">
+    <img src="/images/deathnote.png"  class="floating image1">
+    <img src="/images/dhurandhar.png"        class="floating image2">         
+    <img src="/images/glory.png"  class="floating image3">         
+    <img src="/images/Modern_Family.png"  class="floating image4">         
+    </section>
+</section>
+
+
+<section class="search">
+    <h1>Find Your Next Watch</h1>
+
+    <p>
+    Search movies, anime, TV shows and discover
+    where to watch them
+    </p>
+
+    <div class="search-bar">
+
+        <input 
+        type="text"
+        id="searchInput"
+        placeholder="Search movies, anime, K-dramas..."
+        >
+
+        <button id="searchButton">
+        Search
+        </button>
+
+    </div>
+
+    <div class="filters">
+        <select id="genre">
+        <option value="">Select genre</option>
+        
+        </select>
+        <select id="mood">
+        <option value="">Select mood</option>
+        <option>Happy</option>
+        <option>Emotional</option>
+        <option>Dark</option>
+        <option>Exciting</option>
+        </select>
+       <select id="type">
+    <option value="">Select type</option>
+    <option value="Movie">Movie</option>
+    <option value="Show">TV Show</option>
+    <option value="Anime">Anime</option>
+    <option value="KDrama">K-Drama</option>
+</select>
+        <button id="recommendation">
+        Get Recommendations
+        </button>
+
+    </div>
+</section>
+
+<section class="result">
+    <h2>Discover Your Next Watch</h2>
+    <div id="result">
+
+    </div>
+
+</section>
+    
+<section class="trending" id="trending">
+    <h2>Trending Now</h2>
+    <div class="trending-container" id="trendingContainer">
+        <div class="trending-card">
+Trending movies
+        </div>
+        <div class="trending-card">
+Trending anime
+        </div><div class="trending-card">
+Trending shows
+        </div><div class="trending-card">
+Trending K-drama
+        </div>
+        </div>
+</section>
+<section
+class="recommendations">
+<h2>Recommended For You</h2>
+<div
+id="recommendationsContainer">
+
+</div>
+
+</section>
+<section class="taste-profile">
+
+    <h2>Your AI Taste Profile</h2>
+
+    <div id="tasteProfile">
+
+    </div>
+
+</section>
+<section class="ai-chat">
+
+    <h2>Ask AI</h2>
+
+    <input
+    type="text"
+    id="aiPrompt"
+    placeholder="Recommend a dark anime">
+
+    <button id="askAI">
+        Ask AI
+    </button>
+
+    <div id="aiResults">
+
+    </div>
+
+</section>
+<section class="Featured">
+    <div class="Featured-content">
+        <h2>Featured Picks</h2>
+        <h1>The Boys</h1>
+        <p>The Boys is a darkly comedic superhero series that satirizes the comic book
+             genre and the concept of heroism. Set in a world where superheroes are corrupt
+              and abusive, the series follows a group of vigilantes as they take down the powerful
+               and unethical heroes. With its sharp writing, intense action sequences, and social 
+               commentary, The Boys has become a hit among fans of the genre.        </p>
+   <button>
+Watch Now
+   </button>
+    </div>
+</section>
+<Footer>
+    <h2>SiteSense</h2>
+    <p>Your ultimate entertainment companion</p>
+    <p>© 2026 SiteSense. All rights reserved.</p>
+</Footer>
+<script src="script.js"></script>
+</body>
+</html>

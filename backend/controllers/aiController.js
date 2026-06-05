@@ -1,31 +1,30 @@
-const Favorite=require("../models/Favorite");
-const {analyzeTaste}=require("../services/aiService");
-const {GoogleGenAI}=require("@google/genai");
+const Favorite = require("../models/Favorite");
+const { analyzeTaste } = require("../services/aiService");
+const { GoogleGenAI } = require("@google/genai");
 
-const ai=new GoogleGenAI({
-    apiKey:process.env.GEMINI_API_KEY
+const ai = new GoogleGenAI({
+    apiKey: process.env.GEMINI_API_KEY
 });
 
-exports.getTasteProfile=async(req,res)=>{
+exports.getTasteProfile = async (req, res) => {
 
-    try{
+    try {
 
-        const favourites=
-        await Favorite.find({
-            userId:req.user.userId
+        const favourites = await Favorite.find({
+            userId: req.user.userId
         });
 
-        if(favourites.length===0){
+        if (favourites.length === 0) {
 
             return res.json({
-                genres:[],
-                themes:[],
-                keywords:[]
+                genres: [],
+                themes: [],
+                keywords: []
             });
 
         }
 
-        const result=
+        const result =
         await analyzeTaste(favourites);
 
         res.json(
@@ -34,71 +33,82 @@ exports.getTasteProfile=async(req,res)=>{
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.log(error);
 
         res.status(500).json({
-            message:"Error generating taste profile"
+            message: "Error generating taste profile"
         });
 
     }
 
 };
 
-exports.askAI=async(req,res)=>{
+exports.askAI = async (req, res) => {
 
-    try{
+    try {
 
-        const {prompt}=req.body;
+        const { prompt } = req.body;
 
-        const favourites=
+        if (!prompt) {
+
+            return res.status(400).json({
+                message: "Prompt is required"
+            });
+
+        }
+
+        const favourites =
         await Favorite.find({
-            userId:req.user.userId
+            userId: req.user.userId
         });
 
-        const favouriteTitles=
+        const favouriteTitles =
         favourites
-        .map(item=>item.title)
-        .join(", ");
+            .map(item => item.title)
+            .join(", ");
 
-        const response=
+        const response =
         await ai.models.generateContent({
 
-            model:"gemini-2.5-flash",
+            model: "gemini-2.5-flash",
 
-            contents:`
+            contents: `
 
-            User favorites:
+You are an entertainment recommendation expert.
 
-            ${favouriteTitles}
+User favourites:
+${favouriteTitles}
 
-            User request:
+User request:
+${prompt}
 
-            ${prompt}
+Recommend 5 movies, anime, TV shows, or K-dramas.
 
-            Recommend 5 movies, anime,
-            TV shows or K-dramas based
-            on the user's favorites.
+For each recommendation provide:
+1. Title
+2. Type
+3. Short reason
 
-            `
+`
 
         });
 
         res.json({
 
-            answer:response.text
+            answer: response.text
 
         });
 
     }
 
-    catch(error){
+    catch (error) {
 
         console.log(error);
 
         res.status(500).json({
-            message:"Error processing AI request"
+            message: "Error processing AI request"
         });
 
     }

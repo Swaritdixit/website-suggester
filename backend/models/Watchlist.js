@@ -11,4 +11,4 @@ const watchlistSchema=new mongoose.Schema({
     mediaType:String
 
 });
-module.exports=mongoose.model("WatchList",watchListSchema);
+module.exports=mongoose.model("WatchList",watchlistSchema);

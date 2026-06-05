@@ -1,0 +1,25 @@
+.search-container{
+
+    display:flex;
+
+    gap:10px;
+
+    flex-wrap:wrap;
+
+    padding:20px;
+
+}
+
+.search-container input{
+
+    padding:10px;
+
+    min-width:250px;
+
+}
+
+.search-container select{
+
+    padding:10px;
+
+}
