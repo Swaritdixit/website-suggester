@@ -4,7 +4,6 @@ const mongoose=require("mongoose");
 const dotenv=require("dotenv");
 
 dotenv.config();
-console.log("API KEY:", process.env.TMDB_KEY);
 const app=express();
 
 app.use(cors());
