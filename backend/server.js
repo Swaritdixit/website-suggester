@@ -51,3 +51,7 @@ app.use("/",watchlistRoutes);
 
 const detailsRoutes=require("./routes/detailsRouter");
 app.use("/",detailsRoutes);
+
+app.get("/", (req,res)=>{
+    res.send("Backend Working");
+});
