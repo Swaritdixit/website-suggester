@@ -29,23 +29,16 @@ app.get("/",(req,res)=>{
 });
 
 mongoose.connect(process.env.Mongo_DB)
-
-.then(()=>{
-
+.then(() => {
     console.log("MongoDB Connected");
 
-    app.listen(3000,()=>{
-
-        console.log(
-            "Server is running on port 3000"
-        );
-
+    app.listen(PORT, () => {
+        console.log(`Server running on port ${PORT}`);
     });
-
 })
-
-.catch(err=>console.log(err));
-
+.catch(err => {
+    console.error("MongoDB Error:", err);
+});
 const testRoutes=
 require("./routes/testRoutes");
 
