@@ -1,4 +1,4 @@
-const Favorite = require("../models/Favorite");
+const Favorite = require("../models/favorite");
 const { analyzeTaste } = require("../services/aiService");
 const { GoogleGenAI } = require("@google/genai");
 
