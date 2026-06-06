@@ -28,6 +28,8 @@ app.get("/",(req,res)=>{
     res.send("Backend Working");
 });
 
+const PORT = process.env.PORT || 3000;
+
 mongoose.connect(process.env.Mongo_DB)
 .then(() => {
     console.log("MongoDB Connected");
@@ -36,9 +38,7 @@ mongoose.connect(process.env.Mongo_DB)
         console.log(`Server running on port ${PORT}`);
     });
 })
-.catch(err => {
-    console.error("MongoDB Error:", err);
-});
+.catch(err => console.error(err));
 const testRoutes=
 require("./routes/testRoutes");
 
