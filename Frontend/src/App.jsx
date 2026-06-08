@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Favorites from "./pages/Favorites";
-import Watchlist from "./pages/Watchlist";
+import Watchlist from "./pages/WatchList";
 import Details from "./pages/Details";
 import AIChat from "./pages/AIChat";
 import TasteProfile from "./pages/TasteProfile";
