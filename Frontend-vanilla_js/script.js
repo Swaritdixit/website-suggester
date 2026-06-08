@@ -221,3 +221,81 @@ window.location.href =
 );
 
 }
+const askAI =
+document.getElementById("askAI");
+
+if(askAI){
+
+askAI.addEventListener("click", async ()=>{
+
+const prompt =
+document.getElementById("aiPrompt").value;
+
+const response =
+await fetch(
+"https://website-suggester.onrender.com/ai-search",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+prompt
+})
+}
+);
+
+const data =
+await response.json();
+
+document.getElementById(
+"aiResults"
+).innerHTML = JSON.stringify(
+data,
+null,
+2
+);
+
+});
+
+}
+document
+.querySelectorAll(".favBtn")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+async ()=>{
+
+const token =
+localStorage.getItem("token");
+
+if(!token){
+
+alert("Please login");
+return;
+
+}
+
+await fetch(
+"https://website-suggester.onrender.com/favorites",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+tmdbId:button.dataset.id,
+title:button.dataset.title,
+posterPath:button.dataset.poster,
+mediaType:button.dataset.media
+})
+}
+);
+
+alert("Added to favorites");
+
+});
+
+});

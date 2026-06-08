@@ -401,22 +401,26 @@ flex-wrap:wrap;
     
 }
 .trending-card{
-   height:320px;
-   border-radius:250px;
-   display:flex;
-   justify-content:center;
-   align-items:center;
-   font-size:1.25rem;
-   font-weight:600;
-   color:white;
-   position:relative;
-   overflow:hidden;
-   cursor:pointer;
-   transition:0.4s;
-   background:linear-gradient(135deg,rgba(33, 198, 244, 0.3),rgba(119, 67, 241, 0.1));
-   backdrop-filter:blur(10px);
-   border:1px solid rgba(255,255,255,0.1);
-   box-shadow:0 0 20px rgba(0, 119, 255, 0.15);
+
+background:rgba(255,255,255,0.05);
+
+border-radius:20px;
+
+padding:15px;
+
+display:flex;
+
+flex-direction:column;
+
+align-items:center;
+
+justify-content:flex-start;
+
+height:auto;
+
+min-height:450px;
+
+transition:.3s;
 }
 .trending-card:hover{
     transform:translateY(-10px)
@@ -440,10 +444,30 @@ flex-wrap:wrap;
     
 }
 .trending-card img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    border-radius:20px;
+
+width:100%;
+
+height:320px;
+
+object-fit:cover;
+
+border-radius:15px;
+
+}
+.trending-card button{
+
+margin-top:auto;
+
+padding:10px 20px;
+
+border:none;
+
+border-radius:20px;
+
+background:#00c3ff;
+
+cursor:pointer;
+
 }
 .trending-card h3{
     margin-top:15px;

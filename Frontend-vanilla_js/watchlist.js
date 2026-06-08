@@ -81,3 +81,43 @@ fetch(
     });
 
 });
+document
+.querySelectorAll(".watchBtn")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+async ()=>{
+
+const token =
+localStorage.getItem("token");
+
+if(!token){
+
+alert("Please login");
+return;
+
+}
+
+await fetch(
+"https://website-suggester.onrender.com/watchlist",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+tmdbId:button.dataset.id,
+title:button.dataset.title,
+posterPath:button.dataset.poster,
+mediaType:button.dataset.media
+})
+}
+);
+
+alert("Added to watchlist");
+
+});
+
+});

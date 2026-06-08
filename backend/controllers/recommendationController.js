@@ -20,8 +20,23 @@ exports.getRecommendations=async(req,res)=>{
         const aiResult=
         await analyzeTaste(favourites);
 
-        const profile=
-        JSON.parse(aiResult);
+        let profile;
+
+try{
+
+profile = JSON.parse(aiResult);
+
+}
+catch(error){
+
+console.log(
+"AI JSON parse failed",
+aiResult
+);
+
+return res.json([]);
+
+}
 
         let recommendations=[];
 

@@ -4,7 +4,7 @@ exports.addToWatchlist = async (req, res) => {
     try {
 
         await Watchlist.create({
-            userId: req.user.userId,
+            user: req.user.userId,
             tmdbId: req.body.tmdbId,
             title: req.body.title,
             posterPath: req.body.posterPath,

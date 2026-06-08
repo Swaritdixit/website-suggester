@@ -1,15 +1,38 @@
 const jwt=require("jsonwebtoken");
+
 module.exports=(req,res,next)=>{
-    const token=req.headers.authorization;
-    if(!token){
-        return res.status(401).json({message:"Not logged in"});
-    }
-    try{
-        const decode=jwt.verify(token,process.env.JWT_SECRET);
-        req.user=decode.userId;
-        next();
-    }
-    catch(error){
-        return res.status(401).json({message:"Invalid token"});
-    }
+
+const token=req.headers.authorization;
+
+if(!token){
+
+return res.status(401).json({
+message:"Not logged in"
+});
+
 }
+
+try{
+
+const decoded=
+jwt.verify(
+token,
+process.env.JWT_SECRET
+);
+
+req.user={
+userId:decoded.userId
+};
+
+next();
+
+}
+catch(error){
+
+return res.status(401).json({
+message:"Invalid token"
+});
+
+}
+
+};
