@@ -3,7 +3,7 @@ const params=new URLSearchParams(window.location.search);
 const id=params.get("id");
 const media=params.get("media") || "movie";
 
-fetch(`http://localhost:3000/details/${id}?media=${media}`)
+fetch(`https://website-suggester.onrender.com/details/${id}?media=${media}`)
 
 .then(response=>response.json())
 

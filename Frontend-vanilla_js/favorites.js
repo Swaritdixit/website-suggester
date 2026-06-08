@@ -1,4 +1,4 @@
-fetch("http://localhost:3000/favorites",
+fetch("https://website-suggester.onrender.com/favorites",
      {
         headers:{
             Authorization:
@@ -54,7 +54,7 @@ fetch("http://localhost:3000/favorites",
 
             fetch(
 
-                `http://localhost:3000/favorites/${id}`,
+                `https://website-suggester.onrender.com/favorites/${id}`,
 
                 {
                     method:"DELETE",

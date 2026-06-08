@@ -10,7 +10,7 @@ function getResults(){
     const mood=document.getElementById("mood").value;
     const type=document.getElementById("type").value;
 
-    fetch(`http://localhost:3000/content?search=${search}&genre=${genre}&mood=${mood}&type=${type}`)
+    fetch(`https://website-suggester.onrender.com/content?search=${search}&genre=${genre}&mood=${mood}&type=${type}`)
 
     .then(response=>response.json())
 
@@ -110,7 +110,7 @@ document
 
 });
 
-fetch("http://localhost:3000/trending")
+fetch("https://website-suggester.onrender.com/trending")
 
 .then(response=>response.json())
 
@@ -155,7 +155,7 @@ document.addEventListener("click",event=>{
     if(event.target.classList.contains("favBtn")){
 
         fetch(
-            "http://localhost:3000/favorites",
+            "https://website-suggester.onrender.com/favorites",
             {
                 method:"POST",
 
@@ -191,7 +191,7 @@ document.addEventListener("click",event=>{
 
 });
 
-fetch("http://localhost:3000/genres")
+fetch("https://website-suggester.onrender.com/genres")
 
 .then(response=>response.json())
 
@@ -216,7 +216,7 @@ fetch("http://localhost:3000/genres")
 
 const token=localStorage.getItem("token");
 if(token){
-    fetch("http://localhost:3000/recommendations",{
+    fetch("https://website-suggester.onrender.com/recommendations",{
 
         headers:{
             Authorization:token
@@ -247,7 +247,7 @@ if(token){
 }    
 document.getElementById("askAI").addEventListener("click",async()=>{
     const prompt=document.getElementBYId("aiPrompt").value;
-    const response=await fetch("http://localhost:3000/ask-ai",{
+    const response=await fetch("https://website-suggester.onrender.com/ask-ai",{
         method:"POST",
         headers:{
             "Content-Type":"application/json",
@@ -262,7 +262,7 @@ document.getElementById("askAI").addEventListener("click",async()=>{
 
 
 
-    fetch("http://localhost:3000/taste-profile",{
+    fetch("https://website-suggester.onrender.com/taste-profile",{
         headers:{
             Authorization:localStorage.getItem("token")
         }   
@@ -279,7 +279,7 @@ document.getElementById("askAI").addEventListener("click",async()=>{
 
     document.addEventListener("click",async(event)=>{
         if(event.target.classList.contains("watchBtn")){
-            await fetch("http://localhost:3000/watchlist",{
+            await fetch("https://website-suggester.onrender.com/watchlist",{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
