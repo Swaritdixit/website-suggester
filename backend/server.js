@@ -2,10 +2,7 @@ const express=require("express");
 const cors=require("cors");
 const mongoose=require("mongoose");
 const dotenv=require("dotenv");
-app.get("/test", (req,res)=>{
-    res.send("TEST WORKING");
-});
-dotenv.config();
+
 const app=express();
 
 app.use(cors());
@@ -24,7 +21,10 @@ app.use("/",userRoutes);
 app.use("/",contentRoutes);
 app.use("/",favouriteRoutes);
 app.use("/",recommendationRoutes);
-
+app.get("/test", (req,res)=>{
+    res.send("TEST WORKING");
+});
+dotenv.config();
 
 app.get("/",(req,res)=>{
     res.send("Backend Working");
