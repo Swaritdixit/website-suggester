@@ -577,7 +577,7 @@ footer::before{
     background:linear-gradient(to right,transparent,#00c3ff,transparent);
   box-shadow:0 0 10px #00c3ff;
 }
-------------------------------
+
 .details-card{
     width:80%;
     margin:auto;
