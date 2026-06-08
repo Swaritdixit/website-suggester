@@ -7,6 +7,13 @@ const app=express();
 
 app.use(cors());
 app.use(express.json());
+app.get("/", (req,res)=>{
+    res.send("Backend Working");
+});
+app.get("/test", (req,res)=>{
+    res.send("TEST WORKING");
+});
+dotenv.config();
 
 const contentRoutes=require("./routes/contentRoutes");
 
@@ -21,10 +28,7 @@ app.use("/",userRoutes);
 app.use("/",contentRoutes);
 app.use("/",favouriteRoutes);
 app.use("/",recommendationRoutes);
-app.get("/test", (req,res)=>{
-    res.send("TEST WORKING");
-});
-dotenv.config();
+
 
 app.get("/",(req,res)=>{
     res.send("Backend Working");
@@ -54,6 +58,3 @@ app.use("/",watchlistRoutes);
 const detailsRoutes=require("./routes/detailsRouter");
 app.use("/",detailsRoutes);
 
-app.get("/", (req,res)=>{
-    res.send("Backend Working");
-});
