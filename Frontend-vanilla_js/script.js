@@ -116,37 +116,36 @@ fetch("https://website-suggester.onrender.com/trending")
 
 .then(data=>{
 
- trendingContainer.innerHTML += `
+const trendingContainer=
+document.getElementById(
+    "trendingContainer"
+);
+
+trendingContainer.innerHTML="";
+
+data.forEach(item=>{
+
+trendingContainer.innerHTML += `
 
 <div class="trending-card">
 
-    <img src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+<img
+src="https://image.tmdb.org/t/p/w500${item.poster_path}">
 
-    <h3>${item.title || item.name}</h3>
+<h3>${item.title}</h3>
 
-    <p>${item.overview}</p>
+<p>⭐ ${item.vote_average}</p>
 
-    <button
-        class="favBtn"
-        data-id="${item.id}"
-        data-title="${item.title || item.name}"
-        data-poster="${item.poster_path}"
-        data-media="${item.media_type || "movie"}"
-    >
-        ❤️
-    </button>
-
-    <a href="details.html?id=${item.id}&media=${item.media_type || "movie"}">
-
-        <button>
-            Watch Now
-        </button>
-
-    </a>
+<a href="details.html?id=${item.id}">
+<button>Watch Now</button>
+</a>
 
 </div>
 
 `;
+
+});
+
 
     });
 
@@ -246,7 +245,7 @@ if(token){
 
 }    
 document.getElementById("askAI").addEventListener("click",async()=>{
-    const prompt=document.getElementBYId("aiPrompt").value;
+    const prompt=document.getElementById("aiPrompt").value;
     const response=await fetch("https://website-suggester.onrender.com/ask-ai",{
         method:"POST",
         headers:{
@@ -257,7 +256,7 @@ document.getElementById("askAI").addEventListener("click",async()=>{
     });
     const data=await response.json();
     document.getElementById("aiResults").innerHTML=`
-    <p<${data.answer}</p>
+    <p>${data.answer}</p>
     `});
 
 
@@ -293,3 +292,28 @@ document.getElementById("askAI").addEventListener("click",async()=>{
                 })
             })
         }});
+        const recommendationsContainer=
+document.getElementById(
+    "recommendationsContainer"
+);
+
+recommendationsContainer.innerHTML="";
+
+data.forEach(item=>{
+
+recommendationsContainer.innerHTML+=`
+
+<div class="card">
+
+<img
+src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+
+<h3>${item.title}</h3>
+
+<p>${item.overview}</p>
+
+</div>
+
+`;
+
+});

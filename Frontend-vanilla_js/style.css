@@ -604,3 +604,157 @@ footer::before{
     line-height:1.8;
     margin-bottom:30px;
 }
+    #loginForm{
+    max-width:450px;
+    margin:120px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+#loginForm input{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+}
+
+#loginForm button{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:#00c3ff;
+    font-weight:bold;
+}
+#signupForm{
+    max-width:450px;
+    margin:120px auto;
+    padding:40px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(15px);
+    border-radius:20px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+    border:1px solid rgba(255,255,255,0.1);
+}
+
+#signupForm input{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    background:rgba(255,255,255,0.08);
+    color:white;
+}
+
+#signupForm button{
+    padding:15px;
+    border:none;
+    border-radius:12px;
+    cursor:pointer;
+    background:#00c3ff;
+    font-weight:bold;
+}
+.recommendations{
+    padding:100px 5%;
+    text-align:center;
+}
+
+.recommendations h2{
+    margin-bottom:50px;
+    color:#87F5FB;
+}
+
+#recommendationsContainer{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+}
+.taste-profile{
+    padding:100px 5%;
+    text-align:center;
+}
+
+#tasteProfile{
+    max-width:800px;
+    margin:auto;
+    padding:30px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.05);
+    backdrop-filter:blur(10px);
+}
+
+#tasteProfile h3{
+    margin:20px 0 10px;
+    color:#00c3ff;
+}
+.ai-chat{
+    padding:100px 5%;
+    text-align:center;
+}
+
+#aiPrompt{
+    width:80%;
+    max-width:700px;
+    padding:18px;
+    border:none;
+    border-radius:20px;
+    margin-bottom:20px;
+}
+
+#askAI{
+    padding:15px 30px;
+    border:none;
+    border-radius:20px;
+    background:#00c3ff;
+    cursor:pointer;
+}
+
+#aiResults{
+    margin-top:30px;
+    padding:20px;
+    border-radius:15px;
+    background:rgba(255,255,255,0.05);
+}
+#favoritesContainer{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+    gap:30px;
+    padding:50px;
+}
+
+body h1{
+    text-align:center;
+    margin-top:120px;
+}
+.no-result{
+    text-align:center;
+    padding:50px;
+    width:100%;
+}
+
+.no-result h2{
+    color:#00c3ff;
+}
+.watchBtn{
+    background:#73f6bf !important;
+}
+
+.watchBtn:hover{
+    background:#4cffb5 !important;
+}
+.removeBtn{
+    background:#ff4d4d !important;
+    color:white !important;
+}
+
+.removeBtn:hover{
+    background:#ff0000 !important;
+}

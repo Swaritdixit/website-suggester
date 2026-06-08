@@ -8,7 +8,7 @@ exports.getRecommendations=async(req,res)=>{
 
         const favourites=
         await Favourites.find({
-            userId:req.user.userId
+            user:req.user.userId
         });
 
         if(favourites.length===0){

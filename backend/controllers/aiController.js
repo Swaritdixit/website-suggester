@@ -11,7 +11,7 @@ exports.getTasteProfile = async (req, res) => {
     try {
 
         const favourites = await Favorite.find({
-            userId: req.user.userId
+            user: req.user.userId
         });
 
         if (favourites.length === 0) {
@@ -61,7 +61,7 @@ exports.askAI = async (req, res) => {
 
         const favourites =
         await Favorite.find({
-            userId: req.user.userId
+            user: req.user.userId
         });
 
         const favouriteTitles =
