@@ -2,7 +2,9 @@ const express=require("express");
 const cors=require("cors");
 const mongoose=require("mongoose");
 const dotenv=require("dotenv");
-
+app.get("/test", (req,res)=>{
+    res.send("TEST WORKING");
+});
 dotenv.config();
 const app=express();
 
