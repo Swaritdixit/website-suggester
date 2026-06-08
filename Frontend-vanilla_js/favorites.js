@@ -1,3 +1,9 @@
+if(
+!localStorage.getItem("token")
+){
+window.location.href=
+"login.html";
+}
 fetch("https://website-suggester.onrender.com/favorites",
      {
         headers:{

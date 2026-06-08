@@ -1,12 +1,21 @@
 const express=require('express');
 const router=express.Router();
 const auth=require('../middleware/auth');
+
 const{
     addToWatchlist,
     getWatchlist,
-    removeFromWatchlist 
+    removeFromWatchlist
 }=require('../controllers/watchlistController');
-router.post('/add',auth,addToWatchlist);
-router.get('/',auth,getWatchlist);
-router.delete('/remove/:id',auth,removeFromWatchlist);
-module.exports=router;  
+
+router.post('/watchlist',auth,addToWatchlist);
+
+router.get('/watchlist',auth,getWatchlist);
+
+router.delete(
+'/watchlist/remove/:id',
+auth,
+removeFromWatchlist
+);
+
+module.exports=router;

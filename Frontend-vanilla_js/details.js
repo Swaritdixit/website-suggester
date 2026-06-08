@@ -38,7 +38,10 @@ fetch(`https://website-suggester.onrender.com/details/${id}?media=${media}`)
 
         <p>
         Genres:
-        ${item.genres.map(g=>g.name).join(", ")}
+       ${item.genres ?
+item.genres.map(g=>g.name).join(", ")
+:
+"N/A"}
         </p>
 
     </div>

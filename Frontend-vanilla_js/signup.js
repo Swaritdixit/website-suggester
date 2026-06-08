@@ -1,30 +1,26 @@
 document
 .getElementById("signupForm")
-
-.addEventListener("submit",async(event)=>{
+.addEventListener("submit", async (event) => {
 
     event.preventDefault();
 
-    const username=
+    const username =
     document.getElementById("username").value;
 
-    const email=
+    const email =
     document.getElementById("email").value;
 
-    const password=
+    const password =
     document.getElementById("password").value;
 
-    const response=
+    const response =
     await fetch(
-        "https://website-suggester.onrender.com/",
+        "https://website-suggester.onrender.com/signup",
         {
             method:"POST",
-
             headers:{
-                "Content-Type":
-                "application/json"
+                "Content-Type":"application/json"
             },
-
             body:JSON.stringify({
                 username,
                 email,
@@ -33,10 +29,12 @@ document
         }
     );
 
-    const data=
-    await response.json();
+    const data = await response.json();
 
     alert(data.message);
-     window.location.href="login.html";
+
+    if(response.ok){
+        window.location.href="login.html";
+    }
 
 });

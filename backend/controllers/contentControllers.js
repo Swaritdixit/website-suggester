@@ -67,21 +67,26 @@ exports.getContent=async(req,res)=>{
 
 exports.getTrending=async(req,res)=>{
     const response=await axios.get(
-        `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.TMDB_KEY}`
+        `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.TMDB_KEY}`
     );
     res.json(response.data.results);
 
 };
 exports.getDetails=async(req,res)=>{
 
-   const id=req.params.id;
-const media=req.query.media || "movie";
+const id=req.params.id;
 
-const response=await axios.get(
+const media =
+req.query.media || "movie";
+
+const response =
+await axios.get(
+
 `https://api.themoviedb.org/3/${media}/${id}?api_key=${process.env.TMDB_KEY}`
+
 );
 
-    res.json(response.data);
+res.json(response.data);
 
 };
 exports.getGenres=async(req,res)=>{

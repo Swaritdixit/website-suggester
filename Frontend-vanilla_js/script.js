@@ -2,7 +2,15 @@ let content=[];
 
 const recommendationButton=document.getElementById("recommendation");
 const searchButton=document.getElementById("searchButton");
-
+if(
+    window.location.pathname.includes("favorites.html") ||
+    window.location.pathname.includes("watchlist.html")
+){
+    if(!localStorage.getItem("token")){
+        alert("Please login first");
+        window.location.href="login.html";
+    }
+}
 function getResults(){
 
     const search=document.getElementById("searchInput").value;
@@ -111,209 +119,105 @@ document
 });
 
 fetch("https://website-suggester.onrender.com/trending")
-
 .then(response=>response.json())
-
 .then(data=>{
 
-const trendingContainer=
-document.getElementById(
-    "trendingContainer"
-);
+    const trendingContainer =
+    document.getElementById("trendingContainer");
 
-trendingContainer.innerHTML="";
+    trendingContainer.innerHTML = "";
 
-data.forEach(item=>{
+    data.slice(0,8).forEach(item=>{
 
-trendingContainer.innerHTML += `
+        trendingContainer.innerHTML += `
 
-<div class="trending-card">
+        <div class="trending-card">
 
-<img
-src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+            <img
+            src="https://image.tmdb.org/t/p/w500${item.poster_path}">
 
-<h3>${item.title}</h3>
+            <h3>${item.title}</h3>
 
-<p>⭐ ${item.vote_average}</p>
+            <p>⭐ ${item.vote_average}</p>
 
-<a href="details.html?id=${item.id}">
-<button>Watch Now</button>
-</a>
+            <a href="details.html?id=${item.id}">
+                <button>Watch Now</button>
+            </a>
 
-</div>
+        </div>
 
-`;
-
-});
-
+        `;
 
     });
 
-document.addEventListener("click",event=>{
+});
+const token = localStorage.getItem("token");
 
-    if(event.target.classList.contains("favBtn")){
+if(token){
 
-        fetch(
-            "https://website-suggester.onrender.com/favorites",
-            {
-                method:"POST",
-
-                headers:{
-                    "Content-Type":"application/json",
-                     Authorization:
-            localStorage.getItem(
-                "token"
-            )
-                },
-
-                body:JSON.stringify({
-
-                    tmdbId:event.target.dataset.id,
-
-                    title:event.target.dataset.title,
-
-                    posterPath:event.target.dataset.poster,
-
-                    mediaType:event.target.dataset.media
-
-                })
-
+    fetch(
+        "https://website-suggester.onrender.com/recommendations",
+        {
+            headers:{
+                Authorization:token
             }
-        ).then(response=>response.json())
-        .then(data=>{
+        }
+    )
 
-            console.log(data);
+    .then(response=>response.json())
+
+    .then(data=>{
+
+        const recommendationsContainer =
+        document.getElementById(
+            "recommendationsContainer"
+        );
+
+        recommendationsContainer.innerHTML="";
+
+        data.slice(0,8).forEach(item=>{
+
+            recommendationsContainer.innerHTML += `
+
+            <div class="card">
+
+                <img
+                src="https://image.tmdb.org/t/p/w500${item.poster_path}">
+
+                <h3>${item.title}</h3>
+
+                <p>${item.overview || ""}</p>
+
+                <a href="details.html?id=${item.id}">
+                    <button>Watch Now</button>
+                </a>
+
+            </div>
+
+            `;
 
         });
 
-    }
-
-});
-
-fetch("https://website-suggester.onrender.com/genres")
-
-.then(response=>response.json())
-
-.then(genres=>{
-
-    const genreSelect=
-    document.getElementById("genre");
-
-    genres.forEach(genre=>{
-
-        genreSelect.innerHTML+=`
-
-        <option value="${genre.id}">
-            ${genre.name}
-        </option>
-
-        `;
-
     });
 
-});
+}
+const logoutBtn =
+document.getElementById("logoutBtn");
 
-const token=localStorage.getItem("token");
-if(token){
-    fetch("https://website-suggester.onrender.com/recommendations",{
+if(logoutBtn){
 
-        headers:{
-            Authorization:token
-        }
-    })
-    .then(response=>response.json())
-   .then(data=>{
+logoutBtn.addEventListener(
+"click",
+()=>{
 
-        document
-        .getElementById(
-            "tasteProfile"
-        )
-        .innerHTML=
-
-        `
-        <h3>Genres</h3>
-        <p>${data.genres.join(", ")}</p>
-
-        <h3>Themes</h3>
-        <p>${data.themes.join(", ")}</p>
-
-        <h3>Keywords</h3>
-        <p>${data.keywords.join(", ")}</p>
-        `;
-
-    });
-
-}    
-document.getElementById("askAI").addEventListener("click",async()=>{
-    const prompt=document.getElementById("aiPrompt").value;
-    const response=await fetch("https://website-suggester.onrender.com/ask-ai",{
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json",
-            Authorization:localStorage.getItem("token")
-        },
-        body:JSON.stringify({prompt})
-    });
-    const data=await response.json();
-    document.getElementById("aiResults").innerHTML=`
-    <p>${data.answer}</p>
-    `});
-
-
-
-    fetch("https://website-suggester.onrender.com/taste-profile",{
-        headers:{
-            Authorization:localStorage.getItem("token")
-        }   
-    }).then(response=>response.json())
-    .then(data=>{
-        document.getElementById("tasteProfile").innerHTML=`<h3>Genres</h3>
-        <p>${data.genres.join(", ")}</p>
-        <h3>Themes</h3>
-        <p>${data.themes.join(", ")}</p>
-        <h3>Keywords</h3>
-        <p>${data.keywords.join(", ")}</p>
-        `;
-    })
-
-    document.addEventListener("click",async(event)=>{
-        if(event.target.classList.contains("watchBtn")){
-            await fetch("https://website-suggester.onrender.com/watchlist",{
-                method:"POST",
-                headers:{
-                    "Content-Type":"application/json",
-                    Authorization:localStorage.getItem("token")
-                },
-                body:JSON.stringify({
-                    tmdbId:event.target.dataset.id,
-                    title:event.target.dataset.title,
-                    posterPath:event.target.dataset.poster,
-                    mediaType:event.target.dataset.media
-                })
-            })
-        }});
-        const recommendationsContainer=
-document.getElementById(
-    "recommendationsContainer"
+localStorage.removeItem(
+"token"
 );
 
-recommendationsContainer.innerHTML="";
+window.location.href =
+"login.html";
 
-data.forEach(item=>{
+}
+);
 
-recommendationsContainer.innerHTML+=`
-
-<div class="card">
-
-<img
-src="https://image.tmdb.org/t/p/w500${item.poster_path}">
-
-<h3>${item.title}</h3>
-
-<p>${item.overview}</p>
-
-</div>
-
-`;
-
-});
+}

@@ -1,27 +1,23 @@
 document
 .getElementById("loginForm")
-
-.addEventListener("submit",async(event)=>{
+.addEventListener("submit", async (event)=>{
 
     event.preventDefault();
 
-    const email=
+    const email =
     document.getElementById("email").value;
 
-    const password=
+    const password =
     document.getElementById("password").value;
 
-    const response=
+    const response =
     await fetch(
         "https://website-suggester.onrender.com/login",
         {
             method:"POST",
-
             headers:{
-                "Content-Type":
-                "application/json"
+                "Content-Type":"application/json"
             },
-
             body:JSON.stringify({
                 email,
                 password
@@ -29,10 +25,21 @@ document
         }
     );
 
-    const data=
-    await response.json();
+    const data = await response.json();
 
-    alert(data.message);
-    localStorage.setItem("token",data.token);
-window.location.href="index.html";
+    if(!response.ok){
+        alert(data.message);
+        return;
+    }
+
+    localStorage.setItem(
+        "token",
+        data.token
+    );
+
+    alert("Login Successful");
+
+    window.location.href =
+    "index.html";
+
 });
