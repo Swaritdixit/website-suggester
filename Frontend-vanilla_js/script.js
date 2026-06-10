@@ -2,6 +2,24 @@ let content=[];
 
 const recommendationButton=document.getElementById("recommendation");
 const searchButton=document.getElementById("searchButton");
+fetch("https://website-suggester.onrender.com/genres")
+.then(res=>res.json())
+.then(genres=>{
+
+const genreSelect=
+document.getElementById("genre");
+
+genres.forEach(genre=>{
+
+genreSelect.innerHTML+=`
+<option value="${genre.id}">
+${genre.name}
+</option>
+`;
+
+});
+
+});
 if(
     window.location.pathname.includes("favorites.html") ||
     window.location.pathname.includes("watchlist.html")
@@ -74,7 +92,8 @@ function getResults(){
 
 `;
 
-        });
+        });attachFavoriteButtons();
+attachWatchlistButtons();
 
         if(filtered.length===0){
 
@@ -136,7 +155,7 @@ fetch("https://website-suggester.onrender.com/trending")
             <img
             src="https://image.tmdb.org/t/p/w500${item.poster_path}">
 
-            <h3>${item.title}</h3>
+            <h3>${item.title || item.name}</h3>
 
             <p>⭐ ${item.vote_average}</p>
 
@@ -184,11 +203,11 @@ if(token){
                 <img
                 src="https://image.tmdb.org/t/p/w500${item.poster_path}">
 
-                <h3>${item.title}</h3>
+              <h3>${item.title || item.name}</h3>
 
                 <p>${item.overview || ""}</p>
 
-                <a href="details.html?id=${item.id}">
+                <a href="details.html?id=${item.id}&media=movie}">
                     <button>Watch Now</button>
                 </a>
 
@@ -233,11 +252,12 @@ document.getElementById("aiPrompt").value;
 
 const response =
 await fetch(
-"https://website-suggester.onrender.com/ai-search",
+"https://website-suggester.onrender.com/ask-ai",
 {
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/json",
+Authorization:localStorage.getItem("token")
 },
 body:JSON.stringify({
 prompt
@@ -250,11 +270,8 @@ await response.json();
 
 document.getElementById(
 "aiResults"
-).innerHTML = JSON.stringify(
-data,
-null,
-2
-);
+).innerText =
+data.answer;
 
 });
 
@@ -299,3 +316,198 @@ alert("Added to favorites");
 });
 
 });
+function attachFavoriteButtons(){
+
+document
+.querySelectorAll(".favBtn")
+.forEach(button=>{
+
+button.onclick=async()=>{
+
+const token=localStorage.getItem("token");
+
+if(!token){
+alert("Please login");
+return;
+}
+
+await fetch(
+"https://website-suggester.onrender.com/favorites",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+tmdbId:button.dataset.id,
+title:button.dataset.title,
+posterPath:button.dataset.poster,
+mediaType:button.dataset.media
+})
+}
+);
+
+alert("Added to favorites");
+
+};
+
+});
+
+}
+function attachWatchlistButtons(){
+
+document
+.querySelectorAll(".watchBtn")
+.forEach(button=>{
+
+button.onclick=async()=>{
+
+const token=localStorage.getItem("token");
+
+if(!token){
+alert("Please login");
+return;
+}
+
+await fetch(
+"https://website-suggester.onrender.com/watchlist",
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+Authorization:token
+},
+body:JSON.stringify({
+tmdbId:button.dataset.id,
+title:button.dataset.title,
+posterPath:button.dataset.poster,
+mediaType:button.dataset.media
+})
+}
+);
+
+alert("Added to watchlist");
+
+};
+
+});
+
+}
+fetch(
+"https://website-suggester.onrender.com/genres"
+)
+.then(res=>res.json())
+.then(genres=>{
+
+const select =
+document.getElementById("genre");
+
+genres.forEach(g=>{
+
+select.innerHTML += `
+<option value="${g.id}">
+${g.name}
+</option>
+`;
+
+});
+
+});
+
+if(token){
+
+fetch(
+"https://website-suggester.onrender.com/taste-profile",
+{
+headers:{
+Authorization:token
+}
+}
+)
+.then(res=>res.json())
+.then(data=>{
+
+document.getElementById(
+"tasteProfile"
+).innerHTML = `
+
+<h3>Genres</h3>
+<p>${data.genres.join(", ")}</p>
+
+<h3>Themes</h3>
+<p>${data.themes.join(", ")}</p>
+
+<h3>Keywords</h3>
+<p>${data.keywords.join(", ")}</p>
+
+`;
+
+});
+
+}
+const token=localStorage.getItem("token");
+
+if(token){
+
+fetch(
+"https://website-suggester.onrender.com/taste-profile",
+{
+headers:{
+Authorization:token
+}
+}
+)
+.then(res=>res.json())
+.then(data=>{
+
+const profile=
+document.getElementById("tasteProfile");
+
+if(!profile) return;
+
+profile.innerHTML=`
+<h3>Genres</h3>
+<p>${data.genres.join(", ")}</p>
+
+<h3>Themes</h3>
+<p>${data.themes.join(", ")}</p>
+
+<h3>Keywords</h3>
+<p>${data.keywords.join(", ")}</p>
+`;
+
+});
+
+}
+document
+.getElementById("goTrending")
+?.addEventListener("click",()=>{
+
+document
+.getElementById("trending")
+.scrollIntoView({
+behavior:"smooth"
+});
+
+});
+
+document
+.getElementById("goFavorites")
+?.addEventListener("click",()=>{
+
+window.location.href=
+"favorites.html";
+
+});
+if(!localStorage.getItem("token")){
+
+document
+.querySelector(".ai-chat")
+?.remove();
+
+document
+.querySelector(".taste-profile")
+?.remove();
+
+}

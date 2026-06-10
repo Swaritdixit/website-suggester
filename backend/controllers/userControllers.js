@@ -6,6 +6,27 @@ exports.signup=async(req,res)=>
     try{
         const {username,email,password}=req.body;
         const hashedPassword=await bcrypt.hash(password,10);
+        const existingUser =
+await User.findOne({
+email
+});
+
+if(existingUser){
+
+return res.status(400).json({
+message:"Email already exists"
+});
+
+}const existingUser=
+await User.findOne({
+email
+});
+
+if(existingUser){
+return res.status(400).json({
+message:"User already exists"
+});
+}
         const user=await User.create({
             username,
             email,
@@ -28,6 +49,19 @@ const match=await bcrypt.compare(password,user.password);
 if(!match){
     return res.status(400).json({message:"Invalid password"});
 }
-const token=jwt.sign({userId:user._id},process.env.JWT_SECRET);
+const token=jwt.sign(
+{userId:user._id},
+process.env.JWT_SECRET,
+{
+expiresIn:"7d"
+}
+);
 res.json({message:"Login successful",token});
 };
+if(password.length < 6){
+
+return res.status(400).json({
+message:"Password must be at least 6 characters"
+});
+
+}

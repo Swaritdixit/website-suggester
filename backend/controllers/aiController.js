@@ -27,9 +27,16 @@ exports.getTasteProfile = async (req, res) => {
         const result =
         await analyzeTaste(favourites);
 
-        res.json(
-            JSON.parse(result)
-        );
+      try{
+res.json(JSON.parse(result));
+}
+catch{
+res.json({
+genres:[],
+themes:[],
+keywords:[]
+});
+}
 
     }
 

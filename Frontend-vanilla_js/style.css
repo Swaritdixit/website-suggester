@@ -66,9 +66,9 @@ body{
     overflow:hidden;
     padding:120px 5%;
     color:#1a9256;
-    background:
-    radial-gradient(circle at center, #F5DFBB, transparent 100%),
-    radial-gradient(circle at bottom , #dbb68f, transparent 100%);
+   background:
+radial-gradient(circle at center,#0d1b3d 0%,transparent 70%),
+radial-gradient(circle at bottom,#071125 0%,transparent 70%);
 }
 .hero h1{
     font-size:clamp(2rem, 5vw, 4rem);
@@ -781,4 +781,40 @@ body h1{
 
 .removeBtn:hover{
     background:#ff0000 !important;
+}
+#logoutBtn{
+background:#00c3ff;
+border:none;
+padding:10px 20px;
+border-radius:20px;
+cursor:pointer;
+font-weight:bold;
+}
+
+#logoutBtn:hover{
+transform:scale(1.05);
+}
+.card p{
+max-height:120px;
+overflow:hidden;
+}
+#aiResults{
+white-space:pre-wrap;
+line-height:1.8;
+text-align:left;
+color:white;
+}
+#watchlistContainer{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+padding:50px;
+}
+.removeWatch{
+background:#ff4d4d !important;
+color:white;
+}
+
+.removeWatch:hover{
+background:#ff0000 !important;
 }

@@ -1,10 +1,10 @@
-const Watchlist = require("../models/Watchlist");
+const Watchlist = require("../models/watchlist");
 
 exports.addToWatchlist = async (req, res) => {
     try {
 
         await Watchlist.create({
-            user: req.user.userId,
+            userId: req.user.userId,
             tmdbId: req.body.tmdbId,
             title: req.body.title,
             posterPath: req.body.posterPath,
@@ -30,6 +30,7 @@ exports.getWatchlist = async (req, res) => {
     try {
 
         const items = await Watchlist.find({
+            _id:req.params.id,
             userId: req.user.userId
         });
 
@@ -49,9 +50,10 @@ exports.getWatchlist = async (req, res) => {
 exports.removeFromWatchlist = async (req, res) => {
     try {
 
-        await Watchlist.findByIdAndDelete(
-            req.params.id
-        );
+       await Watchlist.deleteOne({
+        _id:req.params.id,
+    userId:req.user.userId
+});
 
         res.json({
             message: "Removed from watchlist"

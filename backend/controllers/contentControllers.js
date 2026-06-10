@@ -23,7 +23,7 @@ const typeMap={
 
 };
 exports.getContent=async(req,res)=>{
-
+try{
     const search=req.query.search || "";
     const genre=req.query.genre || "";
     const mood=req.query.mood || "";
@@ -63,30 +63,66 @@ exports.getContent=async(req,res)=>{
 
     res.json(response.data.results);
 
+}catch(error){
+
+console.log(error);
+
+res.status(500).json({
+message:"Server Error"
+});
+
+}
+
 };
 
 exports.getTrending=async(req,res)=>{
-    const response=await axios.get(
-        `https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.TMDB_KEY}`
-    );
-    res.json(response.data.results);
+
+try{
+
+const response=await axios.get(
+`https://api.themoviedb.org/3/trending/all/day?api_key=${process.env.TMDB_KEY}`
+);
+
+res.json(response.data.results);
+
+}
+catch(error){
+
+console.log(error);
+
+res.status(500).json({
+message:"Server Error"
+});
+
+}
 
 };
 exports.getDetails=async(req,res)=>{
 
+try{
+
 const id=req.params.id;
 
-const media =
+const media=
 req.query.media || "movie";
 
-const response =
+const response=
 await axios.get(
-
 `https://api.themoviedb.org/3/${media}/${id}?api_key=${process.env.TMDB_KEY}`
-
 );
 
 res.json(response.data);
+
+}
+catch(error){
+
+console.log(error);
+
+res.status(500).json({
+message:"Server Error"
+});
+
+}
 
 };
 exports.getGenres=async(req,res)=>{
